@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tem Dán Nhãn A6</title>
+    <style>
+        @page {
+            size: A6 portrait;
+            margin: 0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            width: 105mm;
+            height: 148mm;
+            padding: 5mm;
+            color: black;
+        }
+        
+        .label-container {
+            width: 100%;
+            height: 100%;
+            border: 2px solid black;
+            display: grid;
+            grid-template-areas: 
+                "header header"
+                "left right"
+                "bottom bottom";
+            grid-template-rows: 20mm 1fr 35mm;
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .header-section {
+            grid-area: header;
+            border-bottom: 2px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+            color: white;
+        }
+        
+        .header-section h1 {
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .left-section {
+            grid-area: left;
+            border-right: 2px solid black;
+            padding: 4mm;
+            display: flex;
+            flex-direction: column;
+            gap: 3mm;
+        }
+        
+        .right-section {
+            grid-area: right;
+            padding: 4mm;
+            display: flex;
+            flex-direction: column;
+            gap: 3mm;
+        }
+        
+        .bottom-section {
+            grid-area: bottom;
+            border-top: 2px solid black;
+            padding: 4mm;
+            display: flex;
+            flex-direction: column;
+            gap: 3mm;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 1mm;
+        }
+        
+        .label {
+            font-weight: bold;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .value {
+            font-size: 12px;
+            border-bottom: 1px solid black;
+            min-height: 18px;
+            padding: 1mm 0;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2mm;
+            text-align: center;
+            border-bottom: 1px solid black;
+            padding-bottom: 1mm;
+        }
+        
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="label-container">
+        <div class="header-section">
+            <h1>PHIẾU GIAO HÀNG</h1>
+        </div>
+        
+        <div class="left-section">
+            <div class="section-title">THÔNG TIN ĐƠN HÀNG</div>
+            
+            <div class="info-item">
+                <div class="label">Thời gian lên đơn</div>
+                <div class="value">25/09/2025 - 14:30</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="label">Mã cây</div>
+                <div class="value">TC-2025-001234</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="label">Số lượng</div>
+                <div class="value">05 cây</div>
+            </div>
+        </div>
+        
+        <div class="right-section">
+            <div class="section-title">THÔNG TIN GIAO NHẬN</div>
+            
+            <div class="info-item">
+                <div class="label">Người nhận</div>
+                <div class="value">Nguyễn Văn Nam</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="label">Đơn vị giao hàng</div>
+                <div class="value">Viettel Post</div>
+            </div>
+        </div>
+        
+        <div class="bottom-section">
+            <div class="section-title">CHI TIẾT SẢN PHẨM</div>
+            
+            <div class="info-item">
+                <div class="label">Loại cây</div>
+                <div class="value">Cây Xanh Nội Thất</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tự động cập nhật thời gian hiện tại
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleDateString('vi-VN') + ' - ' + 
+                             now.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+            document.querySelector('.value').textContent = timeString;
+        }
+        
+        updateCurrentTime();
+        
+        // Cho phép chỉnh sửa bằng cách click
+        document.querySelectorAll('.value').forEach(element => {
+            element.addEventListener('click', function() {
+                if (this.querySelector('input')) return;
+                
+                const currentText = this.textContent;
+                const input = document.createElement('input');
+                input.value = currentText;
+                input.style.cssText = `
+                    width: 100%;
+                    border: none;
+                    outline: none;
+                    font-size: 12px;
+                    background: transparent;
+                    border-bottom: 2px solid black;
+                `;
+                
+                this.textContent = '';
+                this.appendChild(input);
+                input.focus();
+                input.select();
+                
+                const finishEdit = () => {
+                    this.textContent = input.value || currentText;
+                };
+                
+                input.addEventListener('blur', finishEdit);
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') finishEdit();
+                });
+            });
+        });
+        
+        // Nút in
+        const printButton = document.createElement('button');
+        printButton.textContent = 'IN TEM';
+        printButton.style.cssText = `
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: white;
+            color: black;
+            border: 2px solid black;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        `;
+        printButton.onclick = () => window.print();
+        document.body.appendChild(printButton);
+        
+        // Ẩn nút khi in
+        window.addEventListener('beforeprint', () => {
+            printButton.style.display = 'none';
+        });
+        window.addEventListener('afterprint', () => {
+            printButton.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
