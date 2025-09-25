@@ -28,88 +28,155 @@
         .label-container {
             width: 100%;
             height: 100%;
-            border: 2px solid black;
+            border: 3px solid black;
             display: grid;
-            grid-template-areas: 
-                "header header"
-                "left right"
-                "bottom bottom";
-            grid-template-rows: 20mm 1fr 35mm;
-            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1.5fr 1fr;
+            gap: 0;
         }
         
-        .header-section {
-            grid-area: header;
-            border-bottom: 2px solid black;
+        .company-section {
+            border-bottom: 3px solid black;
+            padding: 5mm;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
             background-color: black;
             color: white;
         }
         
-        .header-section h1 {
+        .company-name {
             font-size: 16px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            text-align: center;
+            margin-bottom: 3mm;
+            letter-spacing: 1px;
         }
         
-        .left-section {
-            grid-area: left;
-            border-right: 2px solid black;
-            padding: 4mm;
+        .order-time {
+            text-align: center;
+            font-size: 11px;
+        }
+        
+        .order-time .label {
+            font-weight: bold;
+            margin-right: 3mm;
+        }
+        
+        .shipping-section {
+            border-bottom: 3px solid black;
+            padding: 6mm;
             display: flex;
             flex-direction: column;
-            gap: 3mm;
+            justify-content: center;
         }
         
-        .right-section {
-            grid-area: right;
-            padding: 4mm;
+        .shipping-title {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 5mm;
+            letter-spacing: 1px;
+            border-bottom: 2px solid black;
+            padding-bottom: 2mm;
+        }
+        
+        .shipping-info {
             display: flex;
             flex-direction: column;
-            gap: 3mm;
+            gap: 4mm;
         }
         
-        .bottom-section {
-            grid-area: bottom;
-            border-top: 2px solid black;
-            padding: 4mm;
-            display: flex;
-            flex-direction: column;
-            gap: 3mm;
-        }
-        
-        .info-item {
+        .shipping-item {
             display: flex;
             flex-direction: column;
             gap: 1mm;
         }
         
-        .label {
+        .shipping-label {
             font-weight: bold;
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         
-        .value {
-            font-size: 12px;
-            border-bottom: 1px solid black;
-            min-height: 18px;
-            padding: 1mm 0;
+        .shipping-value {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 3px solid black;
+            padding: 2mm 0;
+            letter-spacing: 1px;
         }
         
-        .section-title {
+        .product-section {
+            padding: 5mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .product-title {
+            font-size: 12px;
             font-weight: bold;
-            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2mm;
             text-align: center;
+            margin-bottom: 4mm;
+            border-bottom: 2px solid black;
+            padding-bottom: 2mm;
+        }
+        
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2mm;
+        }
+        
+        .product-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-label {
+            font-weight: bold;
+            font-size: 10px;
+            width: 22mm;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+        
+        .product-value {
+            font-size: 12px;
+            font-weight: bold;
+            flex: 1;
             border-bottom: 1px solid black;
-            padding-bottom: 1mm;
+            padding: 1mm 0;
+        }
+
+        .demo-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #f0f0f0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            font-size: 12px;
+            max-width: 300px;
+        }
+
+        .demo-info h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .demo-info code {
+            background: #e0e0e0;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+            word-break: break-all;
         }
         
         @media print {
@@ -117,126 +184,191 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+            .demo-info, .print-button {
+                display: none !important;
+            }
         }
     </style>
 </head>
 <body>
     <div class="label-container">
-        <div class="header-section">
-            <h1>PHIẾU GIAO HÀNG</h1>
-        </div>
-        
-        <div class="left-section">
-            <div class="section-title">THÔNG TIN ĐƠN HÀNG</div>
-            
-            <div class="info-item">
-                <div class="label">Thời gian lên đơn</div>
-                <div class="value">25/09/2025 - 14:30</div>
-            </div>
-            
-            <div class="info-item">
-                <div class="label">Mã cây</div>
-                <div class="value">TC-2025-001234</div>
-            </div>
-            
-            <div class="info-item">
-                <div class="label">Số lượng</div>
-                <div class="value">05 cây</div>
+        <!-- Ô 1: Tên công ty và thời gian -->
+        <div class="company-section">
+            <div class="company-name" id="companyName">CÔNG TY CÂY XANH ABC</div>
+            <div class="order-time">
+                <span class="label">Thời gian lên đơn:</span>
+                <span class="value" id="orderTime">25/09/2025 - 14:30</span>
             </div>
         </div>
         
-        <div class="right-section">
-            <div class="section-title">THÔNG TIN GIAO NHẬN</div>
-            
-            <div class="info-item">
-                <div class="label">Người nhận</div>
-                <div class="value">Nguyễn Văn Nam</div>
-            </div>
-            
-            <div class="info-item">
-                <div class="label">Đơn vị giao hàng</div>
-                <div class="value">Viettel Post</div>
+        <!-- Ô 2: Người nhận và đơn vị giao -->
+        <div class="shipping-section">
+            <div class="shipping-title">THÔNG TIN GIAO NHẬN</div>
+            <div class="shipping-info">
+                <div class="shipping-item">
+                    <div class="shipping-label">Người nhận</div>
+                    <div class="shipping-value" id="recipient">NGUYỄN VĂN NAM</div>
+                </div>
+                <div class="shipping-item">
+                    <div class="shipping-label">Đơn vị giao hàng</div>
+                    <div class="shipping-value" id="shippingUnit">VIETTEL POST</div>
+                </div>
             </div>
         </div>
         
-        <div class="bottom-section">
-            <div class="section-title">CHI TIẾT SẢN PHẨM</div>
-            
-            <div class="info-item">
-                <div class="label">Loại cây</div>
-                <div class="value">Cây Xanh Nội Thất</div>
+        <!-- Ô 3: Thông tin sản phẩm -->
+        <div class="product-section">
+            <div class="product-title">THÔNG TIN SẢN PHẨM</div>
+            <div class="product-info">
+                <div class="product-item">
+                    <div class="product-label">Mã cây:</div>
+                    <div class="product-value" id="treeCode">TC-2025-001234</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-label">Loại cây:</div>
+                    <div class="product-value" id="treeType">Cây Xanh Nội Thất</div>
+                </div>
+                <div class="product-item">
+                    <div class="product-label">Số lượng:</div>
+                    <div class="product-value" id="quantity">05 cây</div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Demo info panel -->
+    <div class="demo-info">
+        <h4>🔗 Cách sử dụng URL Parameters:</h4>
+        <p><strong>Ví dụ:</strong></p>
+        <code>index.html?company=ABC&time=25/09/2025-14:30&recipient=NGUYEN VAN A&shipping=GHTK&code=TC001&type=CAY SEN DA&qty=3</code>
+        <br><br>
+        <strong>Tham số:</strong><br>
+        • <code>company</code> - Tên công ty<br>
+        • <code>time</code> - Thời gian lên đơn<br>
+        • <code>recipient</code> - Người nhận<br>
+        • <code>shipping</code> - Đơn vị giao hàng<br>
+        • <code>code</code> - Mã cây<br>
+        • <code>type</code> - Loại cây<br>
+        • <code>qty</code> - Số lượng
+    </div>
+
+    <!-- Print button -->
+    <button class="print-button" onclick="window.print()" style="
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: white;
+        color: black;
+        border: 2px solid black;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 14px;
+    ">IN TEM</button>
+
     <script>
-        // Tự động cập nhật thời gian hiện tại
-        function updateCurrentTime() {
-            const now = new Date();
-            const timeString = now.toLocaleDateString('vi-VN') + ' - ' + 
-                             now.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
-            document.querySelector('.value').textContent = timeString;
+        // Hàm lấy URL parameters
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
         }
-        
-        updateCurrentTime();
-        
-        // Cho phép chỉnh sửa bằng cách click
-        document.querySelectorAll('.value').forEach(element => {
-            element.addEventListener('click', function() {
-                if (this.querySelector('input')) return;
-                
-                const currentText = this.textContent;
-                const input = document.createElement('input');
-                input.value = currentText;
-                input.style.cssText = `
-                    width: 100%;
-                    border: none;
-                    outline: none;
-                    font-size: 12px;
-                    background: transparent;
-                    border-bottom: 2px solid black;
-                `;
-                
-                this.textContent = '';
-                this.appendChild(input);
-                input.focus();
-                input.select();
-                
-                const finishEdit = () => {
-                    this.textContent = input.value || currentText;
-                };
-                
-                input.addEventListener('blur', finishEdit);
-                input.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') finishEdit();
-                });
+
+        // Hàm decode URL encoding (cho tiếng Việt)
+        function decodeParam(param) {
+            if (!param) return null;
+            try {
+                return decodeURIComponent(param.replace(/\+/g, ' '));
+            } catch (e) {
+                return param;
+            }
+        }
+
+        // Hàm cập nhật thông tin từ URL parameters
+        function updateFromUrlParams() {
+            // Lấy tham số từ URL
+            const company = decodeParam(getUrlParameter('company'));
+            const time = decodeParam(getUrlParameter('time'));
+            const recipient = decodeParam(getUrlParameter('recipient'));
+            const shipping = decodeParam(getUrlParameter('shipping'));
+            const code = decodeParam(getUrlParameter('code'));
+            const type = decodeParam(getUrlParameter('type'));
+            const qty = decodeParam(getUrlParameter('qty'));
+
+            // Cập nhật nội dung nếu có tham số
+            if (company) {
+                document.getElementById('companyName').textContent = company.toUpperCase();
+            }
+            
+            if (time) {
+                document.getElementById('orderTime').textContent = time;
+            } else {
+                // Nếu không có tham số thời gian, dùng thời gian hiện tại
+                const now = new Date();
+                const timeString = now.toLocaleDateString('vi-VN') + ' - ' + 
+                                 now.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+                document.getElementById('orderTime').textContent = timeString;
+            }
+            
+            if (recipient) {
+                document.getElementById('recipient').textContent = recipient.toUpperCase();
+            }
+            
+            if (shipping) {
+                document.getElementById('shippingUnit').textContent = shipping.toUpperCase();
+            }
+            
+            if (code) {
+                document.getElementById('treeCode').textContent = code.toUpperCase();
+            }
+            
+            if (type) {
+                document.getElementById('treeType').textContent = type.toUpperCase();
+            }
+            
+            if (qty) {
+                document.getElementById('quantity').textContent = qty.toUpperCase();
+            }
+        }
+
+        // Hàm tạo URL mẫu với dữ liệu hiện tại
+        function generateSampleUrl() {
+            const baseUrl = window.location.origin + window.location.pathname;
+            const params = new URLSearchParams({
+                company: 'CÔNG TY CÂY XANH XYZ',
+                time: '25/09/2025 - 15:45',
+                recipient: 'TRẦN THỊ B',
+                shipping: 'GIAO HÀNG TIẾT KIỆM',
+                code: 'TC-2025-567890',
+                type: 'CÂY SEN ĐÁ',
+                qty: '10 CÂY'
             });
+            return `${baseUrl}?${params.toString()}`;
+        }
+
+        // Khởi tạo khi trang load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFromUrlParams();
+            
+            // Hiển thị URL mẫu trong console
+            console.log('URL mẫu:', generateSampleUrl());
         });
-        
-        // Nút in
-        const printButton = document.createElement('button');
-        printButton.textContent = 'IN TEM';
-        printButton.style.cssText = `
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background: white;
-            color: black;
-            border: 2px solid black;
-            padding: 8px 16px;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-        `;
-        printButton.onclick = () => window.print();
-        document.body.appendChild(printButton);
-        
-        // Ẩn nút khi in
-        window.addEventListener('beforeprint', () => {
-            printButton.style.display = 'none';
-        });
-        window.addEventListener('afterprint', () => {
-            printButton.style.display = 'block';
+
+        // Hàm copy URL mẫu (có thể gọi từ console)
+        function copySampleUrl() {
+            const url = generateSampleUrl();
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Đã copy URL mẫu vào clipboard!');
+            });
+        }
+
+        // Thêm event listener cho phím tắt
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + P để in
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
         });
     </script>
 </body>
