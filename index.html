@@ -155,28 +155,7 @@
         }
 
         .demo-info {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: #f0f0f0;
-            padding: 10px;
-            border: 2px solid #333;
-            border-radius: 5px;
-            font-size: 12px;
-            max-width: 300px;
-        }
-
-        .demo-info h4 {
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        .demo-info code {
-            background: #e0e0e0;
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-size: 10px;
-            word-break: break-all;
+            display: none;
         }
         
         @media print {
@@ -194,10 +173,10 @@
     <div class="label-container">
         <!-- Ô 1: Tên công ty và thời gian -->
         <div class="company-section">
-            <div class="company-name" id="companyName">CÔNG TY CÂY XANH ABC</div>
+            <div class="company-name" id="companyName"></div>
             <div class="order-time">
                 <span class="label">Thời gian lên đơn:</span>
-                <span class="value" id="orderTime">25/09/2025 - 14:30</span>
+                <span class="value" id="orderTime"></span>
             </div>
         </div>
         
@@ -207,11 +186,11 @@
             <div class="shipping-info">
                 <div class="shipping-item">
                     <div class="shipping-label">Người nhận</div>
-                    <div class="shipping-value" id="recipient">NGUYỄN VĂN NAM</div>
+                    <div class="shipping-value" id="recipient"></div>
                 </div>
                 <div class="shipping-item">
                     <div class="shipping-label">Đơn vị giao hàng</div>
-                    <div class="shipping-value" id="shippingUnit">VIETTEL POST</div>
+                    <div class="shipping-value" id="shippingUnit"></div>
                 </div>
             </div>
         </div>
@@ -222,35 +201,21 @@
             <div class="product-info">
                 <div class="product-item">
                     <div class="product-label">Mã cây:</div>
-                    <div class="product-value" id="treeCode">TC-2025-001234</div>
+                    <div class="product-value" id="treeCode"></div>
                 </div>
                 <div class="product-item">
                     <div class="product-label">Loại cây:</div>
-                    <div class="product-value" id="treeType">Cây Xanh Nội Thất</div>
+                    <div class="product-value" id="treeType"></div>
                 </div>
                 <div class="product-item">
                     <div class="product-label">Số lượng:</div>
-                    <div class="product-value" id="quantity">05 cây</div>
+                    <div class="product-value" id="quantity"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Demo info panel -->
-    <div class="demo-info">
-        <h4>🔗 Cách sử dụng URL Parameters:</h4>
-        <p><strong>Ví dụ:</strong></p>
-        <code>index.html?company=ABC&time=25/09/2025-14:30&recipient=NGUYEN VAN A&shipping=GHTK&code=TC001&type=CAY SEN DA&qty=3</code>
-        <br><br>
-        <strong>Tham số:</strong><br>
-        • <code>company</code> - Tên công ty<br>
-        • <code>time</code> - Thời gian lên đơn<br>
-        • <code>recipient</code> - Người nhận<br>
-        • <code>shipping</code> - Đơn vị giao hàng<br>
-        • <code>code</code> - Mã cây<br>
-        • <code>type</code> - Loại cây<br>
-        • <code>qty</code> - Số lượng
-    </div>
+
 
     <!-- Print button -->
     <button class="print-button" onclick="window.print()" style="
@@ -295,10 +260,8 @@
             const type = decodeParam(getUrlParameter('type'));
             const qty = decodeParam(getUrlParameter('qty'));
 
-            // Cập nhật nội dung nếu có tham số
-            if (company) {
-                document.getElementById('companyName').textContent = company.toUpperCase();
-            }
+            // Cập nhật nội dung nếu có tham số, nếu không thì để trống
+            document.getElementById('companyName').textContent = company ? company.toUpperCase() : '';
             
             if (time) {
                 document.getElementById('orderTime').textContent = time;
@@ -310,25 +273,11 @@
                 document.getElementById('orderTime').textContent = timeString;
             }
             
-            if (recipient) {
-                document.getElementById('recipient').textContent = recipient.toUpperCase();
-            }
-            
-            if (shipping) {
-                document.getElementById('shippingUnit').textContent = shipping.toUpperCase();
-            }
-            
-            if (code) {
-                document.getElementById('treeCode').textContent = code.toUpperCase();
-            }
-            
-            if (type) {
-                document.getElementById('treeType').textContent = type.toUpperCase();
-            }
-            
-            if (qty) {
-                document.getElementById('quantity').textContent = qty.toUpperCase();
-            }
+            document.getElementById('recipient').textContent = recipient ? recipient.toUpperCase() : '';
+            document.getElementById('shippingUnit').textContent = shipping ? shipping.toUpperCase() : '';
+            document.getElementById('treeCode').textContent = code ? code.toUpperCase() : '';
+            document.getElementById('treeType').textContent = type ? type.toUpperCase() : '';
+            document.getElementById('quantity').textContent = qty ? qty.toUpperCase() : '';
         }
 
         // Hàm tạo URL mẫu với dữ liệu hiện tại
