@@ -18,20 +18,130 @@
         
         body {
             font-family: Arial, sans-serif;
-            background-color: white;
-            width: 105mm;
-            height: 148mm;
-            padding: 5mm;
+            background-color: #f8f9fa;
             color: black;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .control-panel {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .control-panel h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 18px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 8px;
+        }
+
+        .form-row {
+            margin-bottom: 15px;
+        }
+
+        .form-row label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 13px;
+        }
+
+        .form-row input, .form-row select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e1e5e9;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-row input:focus, .form-row select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-row input[type="checkbox"] {
+            width: auto;
+        }
+
+        .checkbox-row label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-print {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-reset {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .preview-area {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
         }
         
         .label-container {
-            width: 100%;
-            height: 100%;
+            width: 105mm;
+            height: 148mm;
             border: 3px solid black;
             display: grid;
             grid-template-rows: 1fr 1.5fr 1fr;
             gap: 0;
+            background: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-radius: 2px;
         }
         
         .company-section {
@@ -42,6 +152,11 @@
             justify-content: center;
             background-color: black;
             color: white;
+        }
+
+        .company-section.no-logo {
+            background-color: white;
+            color: black;
         }
         
         .company-name {
@@ -154,92 +269,162 @@
             padding: 1mm 0;
         }
 
-        .demo-info {
-            display: none;
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .control-panel {
+                position: static;
+                border-radius: 0;
+                margin-bottom: 20px;
+            }
         }
         
         @media print {
             body {
+                background: white;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-            .demo-info, .print-button {
+            .container {
+                display: block;
+                padding: 0;
+                max-width: none;
+            }
+            .control-panel {
                 display: none !important;
+            }
+            .preview-area {
+                padding: 0;
+                height: auto;
+            }
+            .label-container {
+                box-shadow: none;
+                margin: 0;
             }
         }
     </style>
 </head>
 <body>
-    <div class="label-container">
-        <!-- Ô 1: Tên công ty và thời gian -->
-        <div class="company-section">
-            <div class="company-name" id="companyName"></div>
-            <div class="order-time">
-                <span class="label">Thời gian lên đơn:</span>
-                <span class="value" id="orderTime"></span>
+    <div class="container">
+        <!-- Form điều khiển -->
+        <div class="control-panel">
+            <h3>⚙️ Chỉnh sửa tem</h3>
+            
+            <div class="form-row">
+                <label>Tên công ty</label>
+                <input type="text" id="input-company" placeholder="Tên công ty...">
+            </div>
+
+            <div class="form-row">
+                <label>Thời gian lên đơn</label>
+                <input type="text" id="input-time" placeholder="Tự động">
+            </div>
+
+            <div class="form-row">
+                <label>Khách hàng</label>
+                <input type="text" id="input-customer" placeholder="Tên khách hàng...">
+            </div>
+
+            <div class="form-row">
+                <label>Người nhận</label>
+                <input type="text" id="input-recipient" placeholder="Tên người nhận...">
+            </div>
+
+            <div class="form-row">
+                <label>Hiển thị</label>
+                <select id="recipient-display">
+                    <option value="both">KHÁCH HÀNG GỬI NGƯỜI NHẬN</option>
+                    <option value="customer">CHỈ KHÁCH HÀNG</option>
+                    <option value="recipient">CHỈ NGƯỜI NHẬN</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label>Đơn vị giao hàng</label>
+                <input type="text" id="input-shipping" placeholder="Đơn vị giao...">
+            </div>
+
+            <div class="form-row">
+                <label>Mã cây</label>
+                <input type="text" id="input-code" placeholder="Mã cây...">
+            </div>
+
+            <div class="form-row">
+                <label>Loại cây</label>
+                <input type="text" id="input-type" placeholder="Loại cây...">
+            </div>
+
+            <div class="form-row">
+                <label>Số lượng</label>
+                <input type="text" id="input-quantity" placeholder="Số lượng...">
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" id="show-logo" checked>
+                <label>Hiển thị logo</label>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-print" onclick="window.print()">🖨️ In tem</button>
+                <button class="btn btn-reset" onclick="resetForm()">🔄 Xóa</button>
             </div>
         </div>
-        
-        <!-- Ô 2: Người nhận và đơn vị giao -->
-        <div class="shipping-section">
-            <div class="shipping-title">THÔNG TIN GIAO NHẬN</div>
-            <div class="shipping-info">
-                <div class="shipping-item">
-                    <div class="shipping-label">Người nhận</div>
-                    <div class="shipping-value" id="recipient"></div>
+
+        <!-- Preview tem -->
+        <div class="preview-area">
+            <div class="label-container">
+                <div class="company-section" id="header-section">
+                    <div class="company-name" id="companyName"></div>
+                    <div class="order-time">
+                        <span class="label">Thời gian lên đơn:</span>
+                        <span class="value" id="orderTime"></span>
+                    </div>
                 </div>
-                <div class="shipping-item">
-                    <div class="shipping-label">Đơn vị giao hàng</div>
-                    <div class="shipping-value" id="shippingUnit"></div>
+                
+                <div class="shipping-section">
+                    <div class="shipping-title">THÔNG TIN GIAO NHẬN</div>
+                    <div class="shipping-info">
+                        <div class="shipping-item">
+                            <div class="shipping-label">Người nhận</div>
+                            <div class="shipping-value" id="recipient"></div>
+                        </div>
+                        <div class="shipping-item">
+                            <div class="shipping-label">Đơn vị giao hàng</div>
+                            <div class="shipping-value" id="shippingUnit"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-        <!-- Ô 3: Thông tin sản phẩm -->
-        <div class="product-section">
-            <div class="product-title">THÔNG TIN SẢN PHẨM</div>
-            <div class="product-info">
-                <div class="product-item">
-                    <div class="product-label">Mã cây:</div>
-                    <div class="product-value" id="treeCode"></div>
-                </div>
-                <div class="product-item">
-                    <div class="product-label">Loại cây:</div>
-                    <div class="product-value" id="treeType"></div>
-                </div>
-                <div class="product-item">
-                    <div class="product-label">Số lượng:</div>
-                    <div class="product-value" id="quantity"></div>
+                
+                <div class="product-section">
+                    <div class="product-title">THÔNG TIN SẢN PHẨM</div>
+                    <div class="product-info">
+                        <div class="product-item">
+                            <div class="product-label">Mã cây:</div>
+                            <div class="product-value" id="treeCode"></div>
+                        </div>
+                        <div class="product-item">
+                            <div class="product-label">Loại cây:</div>
+                            <div class="product-value" id="treeType"></div>
+                        </div>
+                        <div class="product-item">
+                            <div class="product-label">Số lượng:</div>
+                            <div class="product-value" id="quantity"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
-    <!-- Print button -->
-    <button class="print-button" onclick="window.print()" style="
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        background: white;
-        color: black;
-        border: 2px solid black;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-weight: bold;
-        text-transform: uppercase;
-        font-size: 14px;
-    ">IN TEM</button>
-
     <script>
-        // Hàm lấy URL parameters
         function getUrlParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         }
 
-        // Hàm decode URL encoding (cho tiếng Việt)
         function decodeParam(param) {
             if (!param) return null;
             try {
@@ -249,75 +434,76 @@
             }
         }
 
-        // Hàm cập nhật thông tin từ URL parameters
-        function updateFromUrlParams() {
-            // Lấy tham số từ URL
-            const company = decodeParam(getUrlParameter('company'));
-            const time = decodeParam(getUrlParameter('time'));
-            const recipient = decodeParam(getUrlParameter('recipient'));
-            const shipping = decodeParam(getUrlParameter('shipping'));
-            const code = decodeParam(getUrlParameter('code'));
-            const type = decodeParam(getUrlParameter('type'));
-            const qty = decodeParam(getUrlParameter('qty'));
+        function updatePreview() {
+            const company = document.getElementById('input-company').value;
+            const time = document.getElementById('input-time').value;
+            const customer = document.getElementById('input-customer').value;
+            const recipient = document.getElementById('input-recipient').value;
+            const shipping = document.getElementById('input-shipping').value;
+            const code = document.getElementById('input-code').value;
+            const type = document.getElementById('input-type').value;
+            const quantity = document.getElementById('input-quantity').value;
+            const showLogo = document.getElementById('show-logo').checked;
+            const recipientDisplay = document.getElementById('recipient-display').value;
 
-            // Cập nhật nội dung nếu có tham số, nếu không thì để trống
-            document.getElementById('companyName').textContent = company ? company.toUpperCase() : '';
+            document.getElementById('companyName').textContent = company || 'TEM DÁN THÙNG';
+            document.getElementById('orderTime').textContent = time || getCurrentTime();
             
-            if (time) {
-                document.getElementById('orderTime').textContent = time;
-            } else {
-                // Nếu không có tham số thời gian, dùng thời gian hiện tại
-                const now = new Date();
-                const timeString = now.toLocaleDateString('vi-VN') + ' - ' + 
-                                 now.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
-                document.getElementById('orderTime').textContent = timeString;
+            let displayText = '';
+            if (recipientDisplay === 'both' && customer && recipient) {
+                displayText = `${customer.toUpperCase()} GỬI ${recipient.toUpperCase()}`;
+            } else if (recipientDisplay === 'customer' && customer) {
+                displayText = customer.toUpperCase();
+            } else if (recipientDisplay === 'recipient' && recipient) {
+                displayText = recipient.toUpperCase();
+            } else if (customer) {
+                displayText = customer.toUpperCase();
+            } else if (recipient) {
+                displayText = recipient.toUpperCase();
             }
+            document.getElementById('recipient').textContent = displayText;
             
-            document.getElementById('recipient').textContent = recipient ? recipient.toUpperCase() : '';
-            document.getElementById('shippingUnit').textContent = shipping ? shipping.toUpperCase() : '';
-            document.getElementById('treeCode').textContent = code ? code.toUpperCase() : '';
-            document.getElementById('treeType').textContent = type ? type.toUpperCase() : '';
-            document.getElementById('quantity').textContent = qty ? qty.toUpperCase() : '';
+            document.getElementById('shippingUnit').textContent = shipping.toUpperCase();
+            document.getElementById('treeCode').textContent = code.toUpperCase();
+            document.getElementById('treeType').textContent = type.toUpperCase();
+            document.getElementById('quantity').textContent = quantity.toUpperCase();
+
+            const headerSection = document.getElementById('header-section');
+            headerSection.className = showLogo ? 'company-section' : 'company-section no-logo';
         }
 
-        // Hàm tạo URL mẫu với dữ liệu hiện tại
-        function generateSampleUrl() {
-            const baseUrl = window.location.origin + window.location.pathname;
-            const params = new URLSearchParams({
-                company: 'CÔNG TY CÂY XANH XYZ',
-                time: '25/09/2025 - 15:45',
-                recipient: 'TRẦN THỊ B',
-                shipping: 'GIAO HÀNG TIẾT KIỆM',
-                code: 'TC-2025-567890',
-                type: 'CÂY SEN ĐÁ',
-                qty: '10 CÂY'
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleDateString('vi-VN') + ' - ' + 
+                   now.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+        }
+
+        function resetForm() {
+            document.querySelectorAll('input[type="text"]').forEach(input => input.value = '');
+            document.getElementById('show-logo').checked = true;
+            document.getElementById('recipient-display').value = 'both';
+            updatePreview();
+        }
+
+        function initFromUrlParams() {
+            const params = ['company', 'time', 'customer', 'recipient', 'shipping', 'code', 'type', 'qty'];
+            const inputs = ['input-company', 'input-time', 'input-customer', 'input-recipient', 'input-shipping', 'input-code', 'input-type', 'input-quantity'];
+            
+            params.forEach((param, index) => {
+                const value = decodeParam(getUrlParameter(param));
+                if (value) document.getElementById(inputs[index]).value = value;
             });
-            return `${baseUrl}?${params.toString()}`;
+            
+            updatePreview();
         }
 
-        // Khởi tạo khi trang load
         document.addEventListener('DOMContentLoaded', function() {
-            updateFromUrlParams();
+            initFromUrlParams();
             
-            // Hiển thị URL mẫu trong console
-            console.log('URL mẫu:', generateSampleUrl());
-        });
-
-        // Hàm copy URL mẫu (có thể gọi từ console)
-        function copySampleUrl() {
-            const url = generateSampleUrl();
-            navigator.clipboard.writeText(url).then(() => {
-                alert('Đã copy URL mẫu vào clipboard!');
+            document.querySelectorAll('input, select').forEach(element => {
+                element.addEventListener('input', updatePreview);
+                element.addEventListener('change', updatePreview);
             });
-        }
-
-        // Thêm event listener cho phím tắt
-        document.addEventListener('keydown', function(e) {
-            // Ctrl + P để in
-            if (e.ctrlKey && e.key === 'p') {
-                e.preventDefault();
-                window.print();
-            }
         });
     </script>
 </body>
