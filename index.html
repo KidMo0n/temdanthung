@@ -446,7 +446,13 @@
             const showLogo = document.getElementById('show-logo').checked;
             const recipientDisplay = document.getElementById('recipient-display').value;
 
-            document.getElementById('companyName').textContent = company || 'TEM DÁN THÙNG';
+            // Hiển thị tên công ty dựa vào checkbox logo
+            if (showLogo) {
+                document.getElementById('companyName').textContent = company || '';
+            } else {
+                document.getElementById('companyName').textContent = 'TEM DÁN THÙNG';
+            }
+            
             document.getElementById('orderTime').textContent = time || getCurrentTime();
             
             let displayText = '';
