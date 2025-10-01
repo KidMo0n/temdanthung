@@ -136,147 +136,129 @@
             width: 95mm;
             height: 128mm;
             border: 3px solid black;
-            display: grid;
-            grid-template-rows: 1fr 1.5fr 1fr;
-            gap: 0;
             background: white;
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border-radius: 2px;
-        }
-        
-        .company-section {
-            border-bottom: 3px solid black;
-            padding: 5mm;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+        }
+        
+        .header-section {
             background-color: black;
             color: white;
+            padding: 4mm;
+            text-align: center;
+            border-bottom: 3px solid black;
         }
 
-        .company-section.no-logo {
+        .header-section.no-logo {
             background-color: white;
             color: black;
         }
         
         .company-name {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 3mm;
             letter-spacing: 1px;
+            margin-bottom: 2mm;
         }
         
         .order-time {
-            text-align: center;
-            font-size: 11px;
+            font-size: 10px;
         }
         
-        .order-time .label {
-            font-weight: bold;
-            margin-right: 3mm;
-        }
-        
-        .shipping-section {
-            border-bottom: 3px solid black;
-            padding: 6mm;
+        .main-content {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-        }
-        
-        .shipping-title {
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 5mm;
-            letter-spacing: 1px;
-            border-bottom: 2px solid black;
-            padding-bottom: 2mm;
-        }
-        
-        .shipping-info {
-            display: flex;
-            flex-direction: column;
-            gap: 3mm;
-        }
-        
-        .shipping-item {
-            display: flex;
-            flex-direction: column;
-            gap: 1mm;
-        }
-        
-        .shipping-label {
-            font-weight: bold;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .shipping-value {
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-bottom: 3px solid black;
-            padding: 2mm 0;
-            letter-spacing: 1px;
+            padding: 4mm;
         }
 
-        .note-value {
-            font-size: 10px;
-            font-weight: normal;
-            text-transform: none;
-            border-bottom: 1px solid black;
-            padding: 1mm 0;
-            letter-spacing: 0;
-            font-style: italic;
+        .recipient-section {
+            margin-bottom: 4mm;
+            padding-bottom: 3mm;
+            border-bottom: 2px solid black;
         }
-        
-        .product-section {
-            padding: 5mm;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+
+        .info-row {
+            margin-bottom: 2mm;
         }
-        
-        .product-title {
-            font-size: 12px;
+
+        .info-label {
+            font-size: 9px;
             font-weight: bold;
             text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 4mm;
-            border-bottom: 2px solid black;
-            padding-bottom: 2mm;
+            color: #666;
+            margin-bottom: 1mm;
         }
-        
-        .product-info {
+
+        .info-value {
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 1mm 0;
+            border-bottom: 2px solid black;
+        }
+
+        .info-value.note {
+            font-size: 9px;
+            font-weight: normal;
+            text-transform: none;
+            font-style: italic;
+            border-bottom: 1px dashed #999;
+        }
+
+        .code-section {
+            background: black;
+            color: white;
+            padding: 3mm;
+            text-align: center;
+            margin: 3mm 0;
+            border-radius: 2px;
+        }
+
+        .code-label {
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 1mm;
+            opacity: 0.8;
+        }
+
+        .code-value {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            border-bottom: 2px solid white;
+            padding-bottom: 1mm;
+        }
+
+        .product-details {
             display: flex;
             flex-direction: column;
             gap: 2mm;
+            margin-top: 2mm;
         }
-        
-        .product-item {
+
+        .detail-row {
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            padding: 1mm 0;
+            border-bottom: 1px solid #ddd;
         }
-        
-        .product-label {
-            font-weight: bold;
+
+        .detail-label {
             font-size: 10px;
-            width: 22mm;
-            flex-shrink: 0;
+            font-weight: bold;
             text-transform: uppercase;
+            color: #666;
         }
-        
-        .product-value {
+
+        .detail-value {
             font-size: 12px;
             font-weight: bold;
-            flex: 1;
-            border-bottom: 1px solid black;
-            padding: 1mm 0;
+            text-align: right;
         }
 
         @media (max-width: 768px) {
@@ -391,46 +373,45 @@
         <!-- Preview tem -->
         <div class="preview-area">
             <div class="label-container">
-                <div class="company-section" id="header-section">
+                <!-- Header -->
+                <div class="header-section" id="header-section">
                     <div class="company-name" id="companyName"></div>
-                    <div class="order-time">
-                        <span class="label">Thời gian lên đơn:</span>
-                        <span class="value" id="orderTime"></span>
-                    </div>
+                    <div class="order-time" id="orderTime"></div>
                 </div>
                 
-                <div class="shipping-section">
-                    <div class="shipping-title">THÔNG TIN GIAO NHẬN</div>
-                    <div class="shipping-info">
-                        <div class="shipping-item">
-                            <div class="shipping-label">Người nhận</div>
-                            <div class="shipping-value" id="recipient"></div>
+                <!-- Main content -->
+                <div class="main-content">
+                    <!-- Thông tin giao nhận -->
+                    <div class="recipient-section">
+                        <div class="info-row">
+                            <div class="info-label">Người nhận</div>
+                            <div class="info-value" id="recipient"></div>
                         </div>
-                        <div class="shipping-item">
-                            <div class="shipping-label">Đơn vị giao hàng</div>
-                            <div class="shipping-value" id="shippingUnit"></div>
+                        <div class="info-row">
+                            <div class="info-label">Đơn vị giao hàng</div>
+                            <div class="info-value" id="shippingUnit"></div>
                         </div>
-                        <div class="shipping-item">
-                            <div class="shipping-label">Ghi chú</div>
-                            <div class="note-value" id="note"></div>
+                        <div class="info-row">
+                            <div class="info-label">Ghi chú</div>
+                            <div class="info-value note" id="note"></div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="product-section">
-                    <div class="product-title">THÔNG TIN SẢN PHẨM</div>
-                    <div class="product-info">
-                        <div class="product-item">
-                            <div class="product-label">Mã cây:</div>
-                            <div class="product-value" id="treeCode"></div>
+
+                    <!-- Mã cây nổi bật -->
+                    <div class="code-section">
+                        <div class="code-label">Mã cây</div>
+                        <div class="code-value" id="treeCode"></div>
+                    </div>
+
+                    <!-- Chi tiết sản phẩm -->
+                    <div class="product-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Loại cây</span>
+                            <span class="detail-value" id="treeType"></span>
                         </div>
-                        <div class="product-item">
-                            <div class="product-label">Loại cây:</div>
-                            <div class="product-value" id="treeType"></div>
-                        </div>
-                        <div class="product-item">
-                            <div class="product-label">Số lượng:</div>
-                            <div class="product-value" id="quantity"></div>
+                        <div class="detail-row">
+                            <span class="detail-label">Số lượng</span>
+                            <span class="detail-value" id="quantity"></span>
                         </div>
                     </div>
                 </div>
@@ -466,7 +447,7 @@
             const showLogo = document.getElementById('show-logo').checked;
             const recipientDisplay = document.getElementById('recipient-display').value;
 
-            // Hiển thị tên công ty dựa vào checkbox logo
+            // Hiển thị tên công ty
             if (showLogo) {
                 document.getElementById('companyName').textContent = company || '';
             } else {
@@ -475,6 +456,7 @@
             
             document.getElementById('orderTime').textContent = time || getCurrentTime();
             
+            // Hiển thị người nhận
             let displayText = '';
             if (recipientDisplay === 'both' && customer && recipient) {
                 displayText = `${customer.toUpperCase()} GỬI ${recipient.toUpperCase()}`;
@@ -496,7 +478,7 @@
             document.getElementById('quantity').textContent = quantity.toUpperCase();
 
             const headerSection = document.getElementById('header-section');
-            headerSection.className = showLogo ? 'company-section' : 'company-section no-logo';
+            headerSection.className = showLogo ? 'header-section' : 'header-section no-logo';
         }
 
         function getCurrentTime() {
