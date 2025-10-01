@@ -133,8 +133,8 @@
         }
         
         .label-container {
-            width: 105mm;
-            height: 148mm;
+            width: 95mm;
+            height: 128mm;
             border: 3px solid black;
             display: grid;
             grid-template-rows: 1fr 1.5fr 1fr;
@@ -200,7 +200,7 @@
         .shipping-info {
             display: flex;
             flex-direction: column;
-            gap: 4mm;
+            gap: 3mm;
         }
         
         .shipping-item {
@@ -211,18 +211,28 @@
         
         .shipping-label {
             font-weight: bold;
-            font-size: 10px;
+            font-size: 9px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         
         .shipping-value {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             text-transform: uppercase;
             border-bottom: 3px solid black;
             padding: 2mm 0;
             letter-spacing: 1px;
+        }
+
+        .note-value {
+            font-size: 10px;
+            font-weight: normal;
+            text-transform: none;
+            border-bottom: 1px solid black;
+            padding: 1mm 0;
+            letter-spacing: 0;
+            font-style: italic;
         }
         
         .product-section {
@@ -348,6 +358,11 @@
             </div>
 
             <div class="form-row">
+                <label>Ghi chú</label>
+                <input type="text" id="input-note" placeholder="Ghi chú thêm...">
+            </div>
+
+            <div class="form-row">
                 <label>Mã cây</label>
                 <input type="text" id="input-code" placeholder="Mã cây...">
             </div>
@@ -395,6 +410,10 @@
                             <div class="shipping-label">Đơn vị giao hàng</div>
                             <div class="shipping-value" id="shippingUnit"></div>
                         </div>
+                        <div class="shipping-item">
+                            <div class="shipping-label">Ghi chú</div>
+                            <div class="note-value" id="note"></div>
+                        </div>
                     </div>
                 </div>
                 
@@ -440,6 +459,7 @@
             const customer = document.getElementById('input-customer').value;
             const recipient = document.getElementById('input-recipient').value;
             const shipping = document.getElementById('input-shipping').value;
+            const note = document.getElementById('input-note').value;
             const code = document.getElementById('input-code').value;
             const type = document.getElementById('input-type').value;
             const quantity = document.getElementById('input-quantity').value;
@@ -470,6 +490,7 @@
             document.getElementById('recipient').textContent = displayText;
             
             document.getElementById('shippingUnit').textContent = shipping.toUpperCase();
+            document.getElementById('note').textContent = note;
             document.getElementById('treeCode').textContent = code.toUpperCase();
             document.getElementById('treeType').textContent = type.toUpperCase();
             document.getElementById('quantity').textContent = quantity.toUpperCase();
@@ -492,8 +513,8 @@
         }
 
         function initFromUrlParams() {
-            const params = ['company', 'time', 'customer', 'recipient', 'shipping', 'code', 'type', 'qty'];
-            const inputs = ['input-company', 'input-time', 'input-customer', 'input-recipient', 'input-shipping', 'input-code', 'input-type', 'input-quantity'];
+            const params = ['company', 'time', 'customer', 'recipient', 'shipping', 'note', 'code', 'type', 'qty'];
+            const inputs = ['input-company', 'input-time', 'input-customer', 'input-recipient', 'input-shipping', 'input-note', 'input-code', 'input-type', 'input-quantity'];
             
             params.forEach((param, index) => {
                 const value = decodeParam(getUrlParameter(param));
