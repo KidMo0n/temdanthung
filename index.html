@@ -108,6 +108,7 @@
             font-weight: 600;
             font-size: 14px;
             transition: all 0.2s;
+            text-transform: uppercase;
         }
 
         .btn-print {
@@ -115,9 +116,15 @@
             color: white;
         }
 
+        .btn-save {
+            background: #000;
+            color: white;
+        }
+
         .btn-reset {
             background: #6c757d;
             color: white;
+            width: 100%;
         }
 
         .btn:hover {
@@ -365,8 +372,12 @@
             </div>
 
             <div class="btn-group">
-                <button class="btn btn-print" onclick="window.print()">🖨️ In tem</button>
-                <button class="btn btn-reset" onclick="resetForm()">🔄 Xóa</button>
+                <button class="btn btn-print" onclick="window.print()">🖨️ IN TEM</button>
+                <button class="btn btn-save" onclick="saveAsImage()">CHIA SẺ HÌNH ẢNH</button>
+            </div>
+            
+            <div style="margin-top: 10px;">
+                <button class="btn btn-reset" onclick="resetForm()">🔄 XÓA</button>
             </div>
         </div>
 
@@ -496,6 +507,66 @@
             document.getElementById('show-logo').checked = true;
             document.getElementById('recipient-display').value = 'both';
             updatePreview();
+        }
+
+        async function saveAsImage() {
+            try {
+                // Dynamically load html2canvas if not already loaded
+                if (typeof html2canvas === 'undefined') {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+                    document.head.appendChild(script);
+                    
+                    await new Promise((resolve, reject) => {
+                        script.onload = resolve;
+                        script.onerror = reject;
+                    });
+                }
+
+                const labelElement = document.querySelector('.label-container');
+                
+                // Capture with high quality
+                const canvas = await html2canvas(labelElement, {
+                    scale: 2,
+                    backgroundColor: '#ffffff',
+                    useCORS: true
+                });
+
+                // Convert to blob
+                canvas.toBlob(function(blob) {
+                    const code = document.getElementById('input-code').value || 'tem';
+                    const timestamp = new Date().getTime();
+                    const fileName = `tem-${code}-${timestamp}.png`;
+                    const file = new File([blob], fileName, { type: 'image/png' });
+                    
+                    // Try Web Share API first (for mobile)
+                    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                        navigator.share({
+                            title: 'Tem dán nhãn',
+                            text: `Tem dán nhãn - Mã: ${code}`,
+                            files: [file]
+                        }).catch(err => {
+                            console.log('Share cancelled or failed:', err);
+                        });
+                    } else {
+                        // Fallback: Download file
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = fileName;
+                        link.href = url;
+                        link.click();
+                        
+                        // Cleanup
+                        URL.revokeObjectURL(url);
+                        
+                        alert('Đã tải xuống hình ảnh! Bạn có thể chia sẻ qua Zalo, Email, v.v.');
+                    }
+                }, 'image/png');
+
+            } catch (error) {
+                console.error('Error saving image:', error);
+                alert('Có lỗi khi lưu ảnh. Vui lòng thử lại!');
+            }
         }
 
         function initFromUrlParams() {
