@@ -121,6 +121,12 @@
             color: white;
         }
 
+        .btn-download {
+            background: #007bff;
+            color: white;
+            width: 100%;
+        }
+
         .btn-reset {
             background: #6c757d;
             color: white;
@@ -377,6 +383,10 @@
             </div>
             
             <div style="margin-top: 10px;">
+                <button class="btn btn-download" onclick="downloadImage()">💾 LƯU ẢNH</button>
+            </div>
+            
+            <div style="margin-top: 10px;">
                 <button class="btn btn-reset" onclick="resetForm()">🔄 XÓA</button>
             </div>
         </div>
@@ -565,6 +575,51 @@
 
             } catch (error) {
                 console.error('Error saving image:', error);
+                alert('Có lỗi khi lưu ảnh. Vui lòng thử lại!');
+            }
+        }
+
+        async function downloadImage() {
+            try {
+                // Dynamically load html2canvas if not already loaded
+                if (typeof html2canvas === 'undefined') {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+                    document.head.appendChild(script);
+                    
+                    await new Promise((resolve, reject) => {
+                        script.onload = resolve;
+                        script.onerror = reject;
+                    });
+                }
+
+                const labelElement = document.querySelector('.label-container');
+                
+                // Capture with high quality
+                const canvas = await html2canvas(labelElement, {
+                    scale: 2,
+                    backgroundColor: '#ffffff',
+                    useCORS: true
+                });
+
+                // Convert to blob and download
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    const code = document.getElementById('input-code').value || 'tem';
+                    const timestamp = new Date().getTime();
+                    link.download = `tem-${code}-${timestamp}.png`;
+                    link.href = url;
+                    link.click();
+                    
+                    // Cleanup
+                    URL.revokeObjectURL(url);
+                    
+                    alert('Đã lưu ảnh vào thư mục tải xuống!');
+                }, 'image/png');
+
+            } catch (error) {
+                console.error('Error downloading image:', error);
                 alert('Có lỗi khi lưu ảnh. Vui lòng thử lại!');
             }
         }
